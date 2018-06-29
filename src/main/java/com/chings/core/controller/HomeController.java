@@ -16,14 +16,19 @@ class HomeController {
 
     @ApiOperation(value="首页", notes="首页")
     @RequestMapping(value="/", method= RequestMethod.GET)
-    public String home() {
-        return "/home";
+    public String index() {
+        return "/index";
     }
 
     @RequestMapping(value="/home", method= {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Result ajaxHome() {
         return Result.ok();
+    }
+
+    @GetMapping("/account")
+    public String account() {
+        return "/home";
     }
 
 }

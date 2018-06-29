@@ -90,7 +90,7 @@ public class LoginAuthenticationFilter extends AuthenticatingFilter {
             executeLogin(request, response);
         } catch (Exception e){
             if(ajaxRequest) return onAjaxLoginFailed(httpServletRequest,httpServletResponse,e);
-            onLoginFailed(false,httpServletRequest,httpServletResponse,e);
+            return onLoginFailed(false,httpServletRequest,httpServletResponse,e);
         }
 
         if(ajaxRequest) return onAjaxLoginSuccess(httpServletRequest,httpServletResponse);
@@ -122,12 +122,6 @@ public class LoginAuthenticationFilter extends AuthenticatingFilter {
     }
 
     @Override
-    protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
-
-        super.issueSuccessRedirect(request, response);
-    }
-
-    @Override
     protected boolean isLoginRequest(ServletRequest request, ServletResponse response) {
         if(pathsMatch(getLoginUrl(),request)){
             return true;
@@ -142,16 +136,14 @@ public class LoginAuthenticationFilter extends AuthenticatingFilter {
     }
 
     protected boolean onAjaxLoginSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        responseJson(response,Result.create(LOGIN_SUCCESS_CODE, LOGIN_SUCCESS_INGO));
+        // 由Controller接口去处理
+        //responseJson(response,Result.create(LOGIN_SUCCESS_CODE, LOGIN_SUCCESS_INGO));
         return true;
     }
 
     protected boolean onLoginSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
-
-        //TODO 跳转到指定页面
-        //但如果返回 false 就不会再调用后续的filter了，只是用户名密码的话，false就可以了。根据系统需求做判断吧
-        issueSuccessRedirect(request,response);
-        return false;
+//        由Controller接口去处理
+        return true;
     }
 
     protected boolean onLoginFailed(boolean saveRequest,ServletRequest request, ServletResponse response,Exception e) throws Exception{
