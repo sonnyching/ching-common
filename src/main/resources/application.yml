@@ -6,6 +6,8 @@ spring:
       hibernate:
         show_sql: true
         dialect: org.hibernate.dialect.MySQL5Dialect
+        naming:
+          physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
@@ -42,5 +44,10 @@ spring:
   # shiro URL 过滤器   /**  必须放在最后
   shiro:
     filters:
-      anon :  /static/** , /login , /logout
+      anon :  /static/** , /login , /logout , /swagger-ui.html , /webjars/** , /swagger-resources/** , /v2/api-docs
       authc : /**
+
+  devtools:
+    restart:
+      enabled: true
+      exclude: WEB-INF/**

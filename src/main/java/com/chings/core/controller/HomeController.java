@@ -20,7 +20,7 @@ class HomeController {
         return "/home";
     }
 
-    @RequestMapping(value="/home", method= RequestMethod.GET)
+    @RequestMapping(value="/home", method= {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public Result ajaxHome() {
         return Result.ok();

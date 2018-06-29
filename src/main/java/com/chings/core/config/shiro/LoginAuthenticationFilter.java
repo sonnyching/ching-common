@@ -9,6 +9,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.hibernate.persister.walking.spi.WalkingException;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -37,7 +38,6 @@ public class LoginAuthenticationFilter extends AuthenticatingFilter {
     private final String LOGIN_SESSION_KEY = "current_user_";
 
     private String[] loginAjaxUrls;
-
 
     public LoginAuthenticationFilter(String[] loginAjaxUrls,String loginView) {
         this.loginAjaxUrls = loginAjaxUrls;
@@ -83,14 +83,14 @@ public class LoginAuthenticationFilter extends AuthenticatingFilter {
         }
 
         if(!loginRequest && !ajaxRequest){
-            return onLoginFailed(request,response,new NotLoginException());
+            return onLoginFailed(true,request,response,new NotLoginException());
         }
 
         try {
             executeLogin(request, response);
         } catch (Exception e){
             if(ajaxRequest) return onAjaxLoginFailed(httpServletRequest,httpServletResponse,e);
-            onLoginFailed(httpServletRequest,httpServletResponse,e);
+            onLoginFailed(false,httpServletRequest,httpServletResponse,e);
         }
 
         if(ajaxRequest) return onAjaxLoginSuccess(httpServletRequest,httpServletResponse);
@@ -122,6 +122,12 @@ public class LoginAuthenticationFilter extends AuthenticatingFilter {
     }
 
     @Override
+    protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
+
+        super.issueSuccessRedirect(request, response);
+    }
+
+    @Override
     protected boolean isLoginRequest(ServletRequest request, ServletResponse response) {
         if(pathsMatch(getLoginUrl(),request)){
             return true;
@@ -141,11 +147,20 @@ public class LoginAuthenticationFilter extends AuthenticatingFilter {
     }
 
     protected boolean onLoginSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        return true;
+
+        //TODO 跳转到指定页面
+        //但如果返回 false 就不会再调用后续的filter了，只是用户名密码的话，false就可以了。根据系统需求做判断吧
+        issueSuccessRedirect(request,response);
+        return false;
     }
 
-    protected boolean onLoginFailed(ServletRequest request, ServletResponse response,Exception e) throws Exception{
-        saveRequestAndRedirectToLogin(request, response);
+    protected boolean onLoginFailed(boolean saveRequest,ServletRequest request, ServletResponse response,Exception e) throws Exception{
+        if(saveRequest){
+            saveRequestAndRedirectToLogin(request, response);
+        } else{
+            redirectToLogin(request, response);
+        }
+
         return false;
     }
 

@@ -14,13 +14,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int id ;
 
-    @Column(name = "password")
-    public String passWord;
+    public String password;
 
-    @Column(name = "name")
     public String name;
 
-    @Column(name="time")
     public Date time;
 
 }

@@ -37,7 +37,7 @@ public class LoginRealm extends AuthorizingRealm {
         User user = new User();
         user.id = 1;
         user.name = "haha";
-        user.passWord = "123456";
+        user.password = "123456";
         user.time = new Date();
 
         if (user == null) {
@@ -45,11 +45,11 @@ public class LoginRealm extends AuthorizingRealm {
         }
 
         // 密码错误
-        if (!user.passWord.equals(s)) {
+        if (!user.password.equals(s)) {
             throw new IncorrectCredentialsException("账号或密码不正确");
         }
 
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user,user.passWord, getName());
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user,user.password, getName());
 
         return authenticationInfo;
     }
