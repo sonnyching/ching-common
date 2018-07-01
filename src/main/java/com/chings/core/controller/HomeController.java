@@ -1,7 +1,6 @@
 package com.chings.core.controller;
 
-import com.chings.core.common.exception.DBException;
-import com.chings.core.common.Result;
+import com.chings.core.common.bean.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

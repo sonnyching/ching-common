@@ -24,11 +24,10 @@ public class WebLogAspect {
 
     @Before("logPointCut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
-        // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
-        // 记录下请求内容
+        // 记录请求内容
         logger.info("请求地址 : " + request.getRequestURL().toString());
 //        logger.info("HTTP METHOD : " + request.getMethod());
         // 获取真实的ip地址

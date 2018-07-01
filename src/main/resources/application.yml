@@ -44,10 +44,12 @@ spring:
   # shiro URL 过滤器   /**  必须放在最后
   shiro:
     filters:
-      anon :  /static/** , /login , /logout , /swagger-ui.html , /webjars/** , /swagger-resources/** , /v2/api-docs
+      anon :  /static/**, /login, /doLogin, /ajaxLogin, /logout, /swagger-ui.html,  /webjars/**, /swagger-resources/**, /v2/api-docs
       authc : /**
 
   devtools:
-    restart:
       enabled: true
       exclude: WEB-INF/**
+      restart:
+        enabled: true
+        exclude: WEB-INF/**

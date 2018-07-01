@@ -7,6 +7,6 @@ import com.chings.core.common.enums.ErrorEnum;
  * @Author Administrator
  * @Date 2018/6/22
  */
-@ErrorCode(ErrorEnum.NOT_FOUND_EXCEPTION)
+@ErrorCode(ErrorEnum.NO_PERMMISION_EXCEPTION)
 public class NoPermissionException extends FastException {
 }

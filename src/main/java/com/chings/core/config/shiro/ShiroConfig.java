@@ -23,12 +23,13 @@ import java.util.Map;
 public class ShiroConfig {
 
     private static final String LOGIN_PATH_VIEW = "/login";
-    private static final String LOGIN_PATH_AJAX = "/doLogin";
+    private static final String LOGIN_PATH_NORMAL = "/doLogin";
+    private static final String LOGIN_PATH_AJAX = "/ajaxLogin";
 
     private String[] anon;
     private String[] authc;
 
-    private String [] ajaxLoginUrls = new String[]{LOGIN_PATH_AJAX};
+    private String [] ajaxLoginUrls = new String[]{LOGIN_PATH_NORMAL,LOGIN_PATH_AJAX};
 
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {

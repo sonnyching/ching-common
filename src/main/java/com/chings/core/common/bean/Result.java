@@ -1,4 +1,4 @@
-package com.chings.core.common;
+package com.chings.core.common.bean;
 
 import com.alibaba.fastjson.JSONObject;
 

@@ -1,10 +1,12 @@
 package com.chings.core.config.shiro;
 
 import com.chings.core.model.User;
+import com.chings.core.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
@@ -13,6 +15,9 @@ import java.util.Date;
  * @Date 2018/6/25
  */
 public class LoginRealm extends AuthorizingRealm {
+
+    @Autowired
+    IUserService userService;
 
     //授权
     @Override
@@ -23,30 +28,22 @@ public class LoginRealm extends AuthorizingRealm {
     //认证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-
-        //TODO
+        //TODO 要根据不同的Token类型分别进行登陆判断
+        User user = null;
 
         UsernamePasswordToken utoken = (UsernamePasswordToken) token;
 
         String username = utoken.getUsername();
-        char[] password = utoken.getPassword();
+        char[] passwordArray = utoken.getPassword();
 
-        String s = new String(password);
+        String password = new String(passwordArray);
 
-        //TODO 执行一系列查询过程
-        User user = new User();
-        user.id = 1;
-        user.name = "haha";
-        user.password = "123456";
-        user.time = new Date();
-
-        if (user == null) {
-            throw new UnknownAccountException("账号或密码不正确");
-        }
-
-        // 密码错误
-        if (!user.password.equals(s)) {
-            throw new IncorrectCredentialsException("账号或密码不正确");
+        if(token instanceof RandomCodeUsernamePassworToken){
+            RandomCodeUsernamePassworToken _token = (RandomCodeUsernamePassworToken) token;
+            user = userService.login(username, password,_token.getRamdomCode(),_token.getSessionId());
+        }else{
+            UsernamePasswordToken _token = (UsernamePasswordToken) token;
+            user = userService.login(username, password);
         }
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user,user.password, getName());
