@@ -23,13 +23,8 @@ import java.util.Map;
 public class ShiroConfig {
 
     private static final String LOGIN_PATH_VIEW = "/login";
-    private static final String LOGIN_PATH_NORMAL = "/doLogin";
-    private static final String LOGIN_PATH_AJAX = "/ajaxLogin";
-
     private String[] anon;
     private String[] authc;
-
-    private String [] ajaxLoginUrls = new String[]{LOGIN_PATH_NORMAL,LOGIN_PATH_AJAX};
 
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -37,8 +32,8 @@ public class ShiroConfig {
         //添加新的拦截器
 
         Map<String,Filter> filters = new LinkedHashMap<String,Filter>();
-        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter(ajaxLoginUrls,LOGIN_PATH_VIEW);
-        filters.put("authc",loginAuthenticationFilter);
+        LoginFilter loginFilter = new LoginFilter();
+        filters.put("authc", loginFilter);
         shiroFilterFactoryBean.setFilters(filters);
 
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -96,4 +91,5 @@ public class ShiroConfig {
     public void setAuthc(String[] authc) {
         this.authc = authc;
     }
+
 }
