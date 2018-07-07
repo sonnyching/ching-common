@@ -8,13 +8,14 @@ import java.util.Map;
  * 请求结果返回类
  * Created by Administrator on 2018/6/21.
  */
-public class Result extends JSONObject {
+public class Result<T> extends JSONObject {
 
     private static final long serialVersionUID = 1L;
     
     private final String ERROR_KEY = "code";
     private final String MSG_KEY = "msg";
-    
+    private final String DATA_KEY = "data";
+
     public Result() {
         setCode(0);
         setMsg("操作成功");
@@ -25,6 +26,11 @@ public class Result extends JSONObject {
         result.setCode(code);
         result.setMsg(JSONObject.toJSONString(object));
         return result;
+    }
+
+    public Result addData(T data){
+        put(DATA_KEY,data);
+        return this;
     }
 
     public void setCode(int code){

@@ -1,5 +1,8 @@
 server:
   port: 80
+  session:
+    cookie:
+      http-only: true
 spring:
   jpa:
     properties:
@@ -44,7 +47,7 @@ spring:
   # shiro URL 过滤器   /**  必须放在最后
   shiro:
     filters:
-      anon :  /static/**, /login, /doLogin, /ajaxLogin, /logout, /swagger-ui.html,  /webjars/**, /swagger-resources/**, /v2/api-docs
+      anon :  /static/**, /login, /doLogin, /ajaxLogin, /logout, /swagger-ui.html,  /webjars/**, /swagger-resources/**, /v2/api-docs ,/blog , /blog/**
       authc : /**
 
   devtools:

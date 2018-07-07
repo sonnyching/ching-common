@@ -122,6 +122,12 @@
 		</dependency>
 		<!--热部署-->
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

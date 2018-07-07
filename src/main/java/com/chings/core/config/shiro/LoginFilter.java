@@ -2,15 +2,11 @@ package com.chings.core.config.shiro;
 
 import com.chings.core.common.Constant;
 import com.chings.core.common.bean.Result;
-import com.chings.core.common.exception.NotLoginException;
 import com.chings.core.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
-import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
-import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -31,7 +27,6 @@ public class LoginFilter extends AccessControlFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 
         //因为登陆请求都配置为不拦截了，所以进入此方法的都不是登陆请求
-
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
@@ -67,6 +62,5 @@ public class LoginFilter extends AccessControlFilter {
         PrintWriter writer = response.getWriter();
         writer.write(result.toJSONString());
     }
-//
 
 }

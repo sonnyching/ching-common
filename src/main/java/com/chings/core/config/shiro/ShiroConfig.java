@@ -1,15 +1,21 @@
 package com.chings.core.config.shiro;
 
+import com.chings.core.config.shiro.listener.ChingSessionListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.SessionListener;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.OncePerRequestFilter;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -60,11 +66,20 @@ public class ShiroConfig {
         return myShiroRealm;
     }
 
+    @Bean
+    public SessionManager getSessionManager(){
+        DefaultWebSessionManager manager = new DefaultWebSessionManager();
+        Collection<SessionListener> sessionListeners = manager.getSessionListeners();
+        sessionListeners.add(new ChingSessionListener());
+//        manager.setSessionDAO(new ChingSessionDAO());
+        return manager;
+    }
 
     @Bean
     public SecurityManager securityManager(){
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
+        securityManager.setSessionManager(getSessionManager());
         return securityManager;
     }
 
